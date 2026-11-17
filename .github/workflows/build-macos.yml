@@ -26,7 +26,7 @@ jobs:
       - name: Build manual-install DMG (no Apple notarization)
         env:
           MACOS_RELEASE_MODE: internal
-          APP_RELEASE_VERSION: '1.0.10'
+          APP_RELEASE_VERSION: '1.0.12'
           TARGET_ARCH: ${{ matrix.architecture }}
         run: bash build-on-mac.command
       - uses: actions/upload-artifact@v4
@@ -42,4 +42,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          gh release upload macos-1.0.10-internal --repo "$GITHUB_REPOSITORY" --clobber output/${{ matrix.architecture }}/*.dmg output/${{ matrix.architecture }}/*.dmg.sha256
+          gh release upload macos-1.0.12-internal --repo "$GITHUB_REPOSITORY" --clobber output/${{ matrix.architecture }}/*.dmg output/${{ matrix.architecture }}/*.dmg.sha256

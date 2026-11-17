@@ -2,7 +2,7 @@
 
 此目录包含构建输入与云端流水线，**不是 DMG**。已按用户要求上传到公开仓库 `ordinarykai/yuchuangjie`。
 
-当前云构建将源快照版本覆盖为 `1.0.10`，避免与发布中心已有 Windows `stable/1.0.9` 的唯一版本记录冲突。`manifest.json` 记录的 `1.0.8` 是原始输入快照版本；最终应用版本由工作流的 `APP_RELEASE_VERSION` 决定。两种架构的输出名分别包含 `arm64` 与 `x86_64`。
+当前云构建将源快照版本覆盖为 `1.0.12`，避免与发布中心已有 Windows `stable/1.0.9` 的唯一版本记录冲突。当前源快照已更新到任务按钮修复后的代码，版本1.0.12。共享工作区中的版本配置由其他任务管理，本快照单独固定版本。两种架构的输出名分别包含 `arm64` 与 `x86_64`。
 
 代码及 Cut 前端使用当前工作区快照；未包含 `.env*`、私钥、签名证书、本机用户配置和 Windows 运行时。平台 `https://cqsaigc.com/`，业务 API `https://cqsaigc.com/backend/atai-video-business-platform`，Cut `https://cqsaigc.com/cut/`。包含新品牌文案、用户提供的蓝色 Logo 和已核对的依赖裁剪规则。源码相关 fixture 测试 31 项通过，未执行实际安装或渲染验收。
 
@@ -23,7 +23,7 @@
 
 ```bash
 # 内部测试：临时签名，无 Apple 公证
-APP_RELEASE_VERSION=1.0.10 MACOS_RELEASE_MODE=internal bash build-on-mac.command
+APP_RELEASE_VERSION=1.0.12 MACOS_RELEASE_MODE=internal bash build-on-mac.command
 
 # 正式分发：先安装 Developer ID 证书并配置公证凭据
 CODESIGN_IDENTITY='Developer ID Application: Your Company (TEAMID)' \

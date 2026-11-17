@@ -1,22 +1,12 @@
 {
   "format": 1,
-  "kind": "macOS build inputs, not an installer",
-  "version": "1.0.8",
+  "kind": "macOS source inputs",
+  "version": "1.0.12",
   "appName": "渝创界小助手",
-  "sourceFiles": 1470,
+  "sourceFiles": 1471,
   "frontendFiles": 771,
-  "excludedSensitivePaths": [
-    "openchatcut-engine/.env.local"
-  ],
-  "gateway": "https://cqsaigc.com/backend",
-  "api": "https://cqsaigc.com/backend/atai-video-business-platform",
-  "editor": "https://cqsaigc.com/cut/",
-  "sourceChecks": {
-    "fixtureTests": 31,
-    "passed": true
-  },
-  "buildExecuted": false,
-  "published": false,
+  "sourceArchiveSha256": "b6a4a5bdfadff51c7a695192f5332936c0e18a6281d2b41c4cc7008bdc4ed97b",
+  "uiSha256": "c0fff3eaf737b3fb01f6d24e45d23c933510d0bc488ee32b52ae9de80799b1f6",
   "sourceParts": [
     {
       "name": "assistant-source.part-000",
@@ -40,7 +30,19 @@
     },
     {
       "name": "assistant-source.part-005",
-      "bytes": 3409858
+      "bytes": 3043914
     }
-  ]
+  ],
+  "buildExecuted": false,
+  "published": false,
+  "gateway": "https://cqsaigc.com/backend",
+  "api": "https://cqsaigc.com/backend/atai-video-business-platform",
+  "editor": "https://cqsaigc.com/cut/",
+  "fix": "Task reveal/cancel/retry handlers escape embedded JSON IDs; platform-specific reveal labels and error reporting",
+  "signing": "ad-hoc only; not notarized; manual installation; automatic updates disabled",
+  "sourceChecks": {
+    "javascriptTaskActionsAndPlatformLink": 28,
+    "pythonPruningSharedEnvironment": 17,
+    "passed": true
+  }
 }
