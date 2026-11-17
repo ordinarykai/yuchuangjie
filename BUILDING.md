@@ -10,12 +10,12 @@
 
 1. 本次仓库为用户指定的 `https://github.com/ordinarykai/yuchuangjie`。根目录需要全部 `assistant-source.part-*` 分片和隐藏的 `.github/workflows/build-macos.yml`；脚本会自动合并分片。
 2. 在 Actions 页面手动运行 `Build Yuchuangjie macOS internal installers`。
-3. 两个任务分别在 `macos-15`（Apple Silicon）和 `macos-15-intel`（Intel）运行；先生成 DMG，再通过后台文件接口上传、登记，最后保存安装包和不含凭据的登记结果 artifact。
+3. 两个任务分别在 `macos-15`（Apple Silicon）和 `macos-15-intel`（Intel）运行；生成 DMG 后，保存到 Actions artifact 和 GitHub 草稿发布，供后续转传后台。
 4. 默认 CI 流程仅生成临时签名、未公证的内部测试包。不能将其登记为受信任 Developer ID 签名或已公证，也不能启用正式自动更新。
-5. 上传步骤需要仓库加密 Secret `ATAI_MACOS_UPLOAD_TOKEN`，仅在上传步骤注入，不写入源码或构建输入。本次任务结束会删除该临时 Secret；下次构建前应重新配置有效凭据。
-6. 两个制品登记成功后，使用后台接口在同一发布记录中登记 `platform=macos`、`architecture=arm64/x64`。仅 arm64 为网页默认，Intel 进入历史列表；保持 `signatureVerified=false`、`notarized=false`、`autoUpdateEnabled=false`。先保存草稿、补齐两个架构，再发布。Windows 推荐版本保持独立。
+5. 云端向国内后台上传经测试速度不足，当前构建流程已移除业务后台 Secret，临时 `ATAI_MACOS_UPLOAD_TOKEN` 已删除。`upload-to-backend.py` 保留为独立工具，但没有在当前工作流执行。
+6. 下载真实 DMG 后，通过后台文件上传与登记接口保存制品，再在同一发布记录中设置 `platform=macos`、`architecture=arm64/x64`。仅 arm64 为网页默认，Intel 进入历史列表；保持 `signatureVerified=false`、`notarized=false`、`autoUpdateEnabled=false`。先保存草稿、补齐两个架构，再发布。Windows 推荐版本保持独立。
 
-本次没有配置支付或 Apple 签名凭据。`stage-macos-download.yml` 仅用于已完成 `1.0.9` 构建的下载中转，生成 GitHub 草稿发布，不代表业务发布；业务发布以 cqsaigc.com 后台记录为准。
+本次没有配置支付或 Apple 签名凭据。`stage-macos-download.yml` 是旧 `1.0.9` 构建的下载中转，`probe-backend-transfer.yml` 是已完成的链路诊断；两者均非业务发布入口。业务发布以 cqsaigc.com 后台记录为准。
 
 ## 已有 macOS 主机
 
