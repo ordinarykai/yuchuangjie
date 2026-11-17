@@ -2,7 +2,7 @@ name: Build Yuchuangjie macOS internal installers
 on:
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     strategy:
@@ -29,16 +29,6 @@ jobs:
           APP_RELEASE_VERSION: '1.0.10'
           TARGET_ARCH: ${{ matrix.architecture }}
         run: bash build-on-mac.command
-      - name: Upload the DMG to the authorized backend
-        env:
-          ATAI_MACOS_UPLOAD_TOKEN: ${{ secrets.ATAI_MACOS_UPLOAD_TOKEN }}
-        run: python upload-to-backend.py --architecture '${{ matrix.architecture }}' --version '1.0.10'
-      - uses: actions/upload-artifact@v4
-        with:
-          name: macos-registration-${{ matrix.architecture }}
-          path: registration/*.json
-          if-no-files-found: error
-          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: yuchuangjie-macos-${{ matrix.architecture }}-internal
@@ -47,3 +37,9 @@ jobs:
             output/${{ matrix.architecture }}/*.dmg.sha256
           if-no-files-found: error
           retention-days: 14
+      - name: Retain installers in a draft release for transfer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release upload macos-1.0.10-internal --repo "$GITHUB_REPOSITORY" --clobber output/${{ matrix.architecture }}/*.dmg output/${{ matrix.architecture }}/*.dmg.sha256
