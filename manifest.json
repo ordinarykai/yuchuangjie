@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "kind": "macOS build inputs, not an installer",
+  "version": "1.0.8",
+  "appName": "渝创界小助手",
+  "sourceFiles": 1470,
+  "frontendFiles": 771,
+  "excludedSensitivePaths": [
+    "openchatcut-engine/.env.local"
+  ],
+  "gateway": "https://cqsaigc.com/backend",
+  "api": "https://cqsaigc.com/backend/atai-video-business-platform",
+  "editor": "https://cqsaigc.com/cut/",
+  "sourceChecks": {
+    "fixtureTests": 31,
+    "passed": true
+  },
+  "buildExecuted": false,
+  "published": false,
+  "sourceParts": [
+    {
+      "name": "assistant-source.part-000",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-001",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-002",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-003",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-004",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-005",
+      "bytes": 3409858
+    }
+  ]
+}
