@@ -1,0 +1,29 @@
+name: Verify backend direct-upload route
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Measure a temporary 1 MiB upload through the file API
+        env:
+          ATAI_MACOS_UPLOAD_TOKEN: ${{ secrets.ATAI_MACOS_UPLOAD_TOKEN }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,os,time,urllib.parse,urllib.request,uuid
+          token=os.environ.pop('ATAI_MACOS_UPLOAD_TOKEN')
+          body={'originalFileName':'macos-transfer-probe-'+uuid.uuid4().hex+'.txt','contentType':'text/plain','size':1048576}
+          req=urllib.request.Request('https://cqsaigc.com/backend/atai-video-business-file/api/file-manage/upload/token',data=json.dumps(body).encode(),headers={'Token':token,'Content-Type':'application/json'},method='POST')
+          with urllib.request.urlopen(req,timeout=30) as response:r=json.load(response)
+          assert r['code']=='00000000','File token API rejected the request'
+          upload=r['data']['result']
+          assert urllib.parse.urlsplit(upload['uploadUrl']).scheme=='https'
+          req=urllib.request.Request(upload['uploadUrl'],data=b'0'*1048576,headers={'Content-Type':'text/plain'},method=upload['uploadMethod'])
+          start=time.monotonic()
+          with urllib.request.urlopen(req,timeout=45) as response:
+            print('Direct storage upload:',response.status,'bytes:',1048576,'elapsed seconds:',round(time.monotonic()-start,2),flush=True)
+          PY
