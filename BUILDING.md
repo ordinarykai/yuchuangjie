@@ -2,6 +2,8 @@
 
 此目录包含构建输入，**不是 DMG，也尚未构建或发布**。
 
+当前云构建将源快照版本覆盖为 `1.0.9`，避免与发布中心已有 Windows `stable/1.0.8` 的唯一版本记录冲突。Windows 版本及原始源码版本文件不变。两种架构的输出名分别包含 `arm64` 与 `x86_64`；云端 artifact 仅上传 DMG 及其登记校验值。
+
 代码及 Cut 前端使用当前工作区快照；未包含 `.env*`、私钥、签名证书、本机用户配置和 Windows 运行时。平台 `https://cqsaigc.com/`，业务 API `https://cqsaigc.com/backend/atai-video-business-platform`，Cut `https://cqsaigc.com/cut/`。包含新品牌文案、用户提供的蓝色 Logo 和已核对的依赖裁剪规则。源码相关 fixture 测试 31 项通过，未执行实际安装或渲染验收。
 
 ## 无 Mac：使用 GitHub Actions

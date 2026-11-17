@@ -14,6 +14,19 @@ else
   cat "$SCRIPT_DIR"/assistant-source.part-* > "$SOURCE_ARCHIVE"
 fi
 tar -xzf "$SOURCE_ARCHIVE" -C "$WORK_DIR"
+if [ -n "${APP_RELEASE_VERSION:-}" ]; then
+  python3 - "$WORK_DIR/assistant/version.json" "$APP_RELEASE_VERSION" <<'PY'
+import json
+from pathlib import Path
+import re
+import sys
+
+version = sys.argv[2]
+if not re.fullmatch(r"\d+(?:\.\d+){1,3}", version):
+    raise SystemExit("APP_RELEASE_VERSION must be numeric semantic version")
+Path(sys.argv[1]).write_text(json.dumps({"version": version}) + "\n", encoding="utf-8")
+PY
+fi
 export TARGET_ARCH="${TARGET_ARCH:-$(uname -m)}"
 case "$TARGET_ARCH" in arm64|x86_64) ;; *) echo "Unsupported architecture: $TARGET_ARCH" >&2; exit 1 ;; esac
 export BUILD_ENV=prod
@@ -40,6 +53,16 @@ bash "$WORK_DIR/assistant/packaging/build_macos.sh"
 OUTPUT_DIR="$SCRIPT_DIR/output/$TARGET_ARCH"
 mkdir -p "$OUTPUT_DIR"
 for artifact in "$WORK_DIR/assistant/release/macos/"*; do
-  [ -f "$artifact" ] && cp "$artifact" "$OUTPUT_DIR/"
+  [ -f "$artifact" ] || continue
+  name="$(basename "$artifact")"
+  name="${name/-macos./-macos-$TARGET_ARCH.}"
+  cp "$artifact" "$OUTPUT_DIR/$name"
 done
+(
+  cd "$OUTPUT_DIR"
+  for artifact in *.dmg *.zip; do
+    [ -f "$artifact" ] || continue
+    shasum -a 256 "$artifact" > "$artifact.sha256"
+  done
+)
 printf 'Built artifacts: %s\nBuild workspace retained: %s\n' "$OUTPUT_DIR" "$WORK_DIR"

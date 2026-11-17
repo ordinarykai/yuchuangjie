@@ -26,11 +26,14 @@ jobs:
       - name: Build manual-install DMG (no Apple notarization)
         env:
           MACOS_RELEASE_MODE: internal
+          APP_RELEASE_VERSION: '1.0.9'
           TARGET_ARCH: ${{ matrix.architecture }}
         run: bash build-on-mac.command
       - uses: actions/upload-artifact@v4
         with:
           name: yuchuangjie-macos-${{ matrix.architecture }}-internal
-          path: output/${{ matrix.architecture }}/*
+          path: |
+            output/${{ matrix.architecture }}/*.dmg
+            output/${{ matrix.architecture }}/*.dmg.sha256
           if-no-files-found: error
           retention-days: 14
