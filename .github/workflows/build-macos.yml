@@ -26,9 +26,19 @@ jobs:
       - name: Build manual-install DMG (no Apple notarization)
         env:
           MACOS_RELEASE_MODE: internal
-          APP_RELEASE_VERSION: '1.0.9'
+          APP_RELEASE_VERSION: '1.0.10'
           TARGET_ARCH: ${{ matrix.architecture }}
         run: bash build-on-mac.command
+      - name: Upload the DMG to the authorized backend
+        env:
+          ATAI_MACOS_UPLOAD_TOKEN: ${{ secrets.ATAI_MACOS_UPLOAD_TOKEN }}
+        run: python upload-to-backend.py --architecture '${{ matrix.architecture }}' --version '1.0.10'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-registration-${{ matrix.architecture }}
+          path: registration/*.json
+          if-no-files-found: error
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: yuchuangjie-macos-${{ matrix.architecture }}-internal
