@@ -1,0 +1,42 @@
+{
+  "format": 1,
+  "kind": "macOS source inputs",
+  "version": "1.0.12",
+  "appName": "渝创界小助手",
+  "sourceFiles": 1465,
+  "frontendFiles": 771,
+  "sourceArchiveSha256": "0de5e38550279d0fe4f6032425a9411b8ef70f78af8e49566033ce040fe2de87",
+  "uiSha256": "c0fff3eaf737b3fb01f6d24e45d23c933510d0bc488ee32b52ae9de80799b1f6",
+  "sourceParts": [
+    {
+      "name": "assistant-source.part-000",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-001",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-002",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-003",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-004",
+      "bytes": 20971520
+    },
+    {
+      "name": "assistant-source.part-005",
+      "bytes": 2877147
+    }
+  ],
+  "gateway": "https://cqsaigc.com/backend",
+  "api": "https://cqsaigc.com/backend/atai-video-business-platform",
+  "editor": "https://cqsaigc.com/cut/",
+  "buildExecuted": false,
+  "published": false,
+  "signing": "Chosen on Mac host: internal is ad-hoc, not notarized, manual installation only"
+}

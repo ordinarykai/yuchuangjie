@@ -1,0 +1,38 @@
+name: Build Yuchuangjie native macOS installers
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            architecture: arm64
+          - runner: macos-15-intel
+            architecture: x86_64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build manual-install DMG (ad-hoc, no Apple notarization)
+        env:
+          MACOS_RELEASE_MODE: internal
+          TARGET_ARCH: ${{ matrix.architecture }}
+        run: bash build-on-mac.command
+      - uses: actions/upload-artifact@v4
+        with:
+          name: yuchuangjie-macos-${{ matrix.architecture }}-manual
+          path: |
+            output/${{ matrix.architecture }}/*.dmg
+            output/${{ matrix.architecture }}/*.dmg.sha256
+          if-no-files-found: error
+          retention-days: 14
